@@ -10,7 +10,9 @@
  */
 const router = require("express").Router();
 
+const { isSignedIn, setUser } = require("../controllers/auth");
 const { createCandidate, getAllCandidates, editCandidateData, getCandidateById } = require("../controllers/candidate");
+router.param('userId', setUser);
 
 /**
  * Route serving candidate form.
@@ -19,9 +21,10 @@ const { createCandidate, getAllCandidates, editCandidateData, getCandidateById }
  * @memberof module:routes/candidate~candidateRoutes
  * @inner
  * @returns {object} 201 - Created
+ * @returns {Error} 401 - UnAuthorized Error
  * @returns {Error} 400 - Unexpected Error
  */
-router.post('/create', createCandidate);
+router.post('/create/:userId', isSignedIn, createCandidate);
 
 /**
  * Route serving candidate form.
@@ -30,9 +33,10 @@ router.post('/create', createCandidate);
  * @memberof module:routes/candidate~candidateRoutes
  * @inner
  * @returns {object} 200 - OK
+ * @returns {Error} 401 - UnAuthorized Error
  * @returns {Error} 400 - Unexpected Error
  */
-router.get('/all', getAllCandidates);
+router.get('/all/:userId', isSignedIn, getAllCandidates);
 
 /**
   * Route serving edit candidate.
@@ -41,10 +45,11 @@ router.get('/all', getAllCandidates);
   * @memberof module:routes/candidate~candidateRoutes
   * @inner
   * @returns {object} 200 - OK
+  * @returns {Error} 401 - UnAuthorized Error
   * @returns {Error} 400 - Unexpected Error
   */
 
-router.put('/edit/:id', editCandidateData);
+router.put('/edit/:id/:userId', isSignedIn, editCandidateData);
 
 /**
   * Route serving get candidate by id.
@@ -53,8 +58,9 @@ router.put('/edit/:id', editCandidateData);
   * @memberof module:routes/candidate~candidateRoutes
   * @inner
   * @returns {object} 200 - OK
+  * @returns {Error} 401 - UnAuthorized Error
   * @returns {Error} 400 - Unexpected Error
   */
 
-router.get('/:id', getCandidateById);
+router.get('/:id/:userId', isSignedIn, getCandidateById);
 module.exports = router;
