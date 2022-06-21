@@ -2,10 +2,13 @@ require("dotenv").config();
 var express = require("express");
 var cors = require("cors");
 var mongoose = require("mongoose");
-
+const graphqlHttp = require('express-graphql')
+const { buildSchema } = require('graphql')
 var app = express();
 
 const routes = require("./routes/index");
+const Candidate = require("./models/candidate");
+const schema = require("./schema/schema");
 
 const PORT = process.env.PORT || 5050;
 
@@ -44,6 +47,12 @@ app.get("/health", (req, res) => {
 });
 
 app.use(routes);
+
+app.use('/graphql', graphqlHttp.graphqlHTTP({
+    schema: schema,
+    graphiql: true,
+}),
+)
 
 
 app.listen(PORT, () => console.log(`Server is running at PORT ${PORT}`));

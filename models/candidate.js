@@ -12,10 +12,6 @@ const candidateSchema = new mongoose.Schema(
             trim: true,
             required: true
         },
-        dateOfBirth: {
-            type: String,
-            required: true
-        },
         state: {
             type: String,
             required: true
@@ -23,16 +19,6 @@ const candidateSchema = new mongoose.Schema(
         age: {
             type: Number,
             required: true
-        },
-        pinCode: {
-            type: String,
-            required: true
-        },
-        result: {
-            type: String,
-            required: true,
-            default: "PENDING",
-            enum: ["PENDING", "SHORTLISTED", "REJECTED"]
         },
         isActive: {
             type: Boolean,
